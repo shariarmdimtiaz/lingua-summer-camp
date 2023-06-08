@@ -25,7 +25,7 @@ const Navbar = () => {
     setIsOpen(!isOpen);
   };
   return (
-    <div className="w-full bg-[#F974B5]">
+    <div className="w-full bg-white">
       <nav className="container mx-auto">
         <div className="mx-auto py-6 flex justify-between items-center">
           <div className="flex items-center">
@@ -37,7 +37,7 @@ const Navbar = () => {
 
             <h1 className="text-black font-bold px-3 text-2xl">
               <span className="text-black">Language</span>{" "}
-              <span className="text-white">Tutor</span>
+              <span className="text-[#5B51DE]">Tutor</span>
             </h1>
           </div>
 
@@ -68,9 +68,9 @@ const Navbar = () => {
           <div className="hidden sm:flex sm:items-center">
             <Link
               to="/"
-              className={classNames("py-2 px-4 mr-3 rounded", {
-                "bg-[#3197C0] text-white font-bold": isActive("/"),
-                "text-white hover:bg-[#3197C0] hover:text-white":
+              className={classNames("font-bold py-2 px-4 mr-3 rounded", {
+                "text-white bg-[#5B51DE] ": isActive("/"),
+                "text-black hover:bg-[#5B51DE] hover:text-white":
                   !isActive("/"),
               })}
             >
@@ -78,31 +78,31 @@ const Navbar = () => {
             </Link>
             <Link
               to="/instructors"
-              className={classNames("py-2 px-4 mr-3 rounded", {
-                "text-white bg-[#3197C0] font-bold": isActive("/alltoys"),
-                "text-white hover:bg-[#3197C0] hover:text-white":
-                  !isActive("/alltoys"),
+              className={classNames("font-bold py-2 px-4 mr-3 rounded", {
+                "text-white bg-[#5B51DE] font-bold": isActive("/instructors"),
+                "text-black hover:bg-[#5B51DE] hover:text-white":
+                  !isActive("/instructors"),
               })}
             >
               Instructors
             </Link>
             <Link
               to="/classes"
-              className={classNames("py-2 px-4 mr-3 rounded", {
-                "text-white bg-[#3197C0] font-bold": isActive("/alltoys"),
-                "text-white hover:bg-[#3197C0] hover:text-white":
-                  !isActive("/alltoys"),
+              className={classNames("font-bold py-2 px-4 mr-3 rounded", {
+                "text-white bg-[#5B51DE]": isActive("/classes"),
+                "text-black hover:bg-[#5B51DE] hover:text-white":
+                  !isActive("/classes"),
               })}
             >
               Classes
             </Link>
             {user ? (
               <Link
-                to="/dashboard "
-                className={classNames("py-2 px-4 mr-3 rounded", {
-                  "text-white bg-[#3197C0] font-bold": isActive("/mytoys"),
-                  "text-white hover:bg-[#3197C0] hover:text-white":
-                    !isActive("/mytoys"),
+                to="/dashboard"
+                className={classNames("font-bold py-2 px-4 mr-3 rounded", {
+                  "text-white bg-[#5B51DE]": isActive("/dashboard"),
+                  "text-black hover:bg-[#5B51DE] hover:text-white":
+                    !isActive("/dashboard"),
                 })}
               >
                 Dashboard
@@ -125,7 +125,7 @@ const Navbar = () => {
           <div className="hidden md:block">
             {!user ? (
               <Link to="/login" className="">
-                <button className="btn btn-primary border-[#136F95] px-5 bg-[#3197C0] text-white  hover:bg-[#136F95] hover:border-[#136F95]">
+                <button className="btn btn-primary border-indigo-700 px-5 bg-white text-black hover:text-white  hover:bg-[#5B51DE] hover:border-indigo-700">
                   Login
                 </button>
               </Link>
