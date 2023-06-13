@@ -1,52 +1,37 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Providers/AuthProviders";
 import img from "../../assets/login.png";
-import { TabTitle } from "../../utils/GeneralFunctions";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { useForm } from "react-hook-form";
+import Swal from "sweetalert2";
 
 const SignUp = () => {
-  const { user, createUser, profileUpdate } = useContext(AuthContext);
+  const {
+    register,
+    handleSubmit,
+    reset,
+    watch,
+    formState: { errors },
+  } = useForm();
+  const { createUser, profileUpdate } = useContext(AuthContext);
   const navigate = useNavigate();
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [photoUrl, setPhotoUrl] = useState("");
-  const [error, setError] = useState("");
-  const [message, setMessage] = useState("");
-  const [control, setControl] = useState(false);
 
   const api = {
-    apiLink: import.meta.env.VITE_APILINK,
+    apiUrl: import.meta.env.VITE_APILINK,
   };
   const jwtUrl = `${api.apiLink}/jwt`;
-  const from = location.state?.from?.pathname || "/";
-  TabTitle("Toyland | Sign up");
+  //const from = location.state?.from?.pathname || "/";
 
-  const handleRegister = (event) => {
-    event.preventDefault();
-    setError("");
-    setMessage("");
-    const form = event.target;
-    if (
-      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,}$/.test(
-        password
-      )
-    ) {
-      //console.log("okay");
-    } else {
-      setError("The password you entered isn't correct!");
-      return;
-    }
-    if (email) {
-      createUser(email, password)
+  const onSubmit = async (data) => {
+    try {
+      console.log(data);
+      // create an account
+      createUser(data.email, data.password)
         .then((result) => {
           const user = result.user;
           const loggedUser = {
             email: user.email,
           };
-          //console.log(loggedUser);
           fetch(jwtUrl, {
             method: "POST",
             headers: {
@@ -56,121 +41,184 @@ const SignUp = () => {
           })
             .then((res) => res.json())
             .then((data) => {
-              localStorage.setItem("toyland-access-token", data.token);
-              navigate(from, { replace: true });
+              localStorage.setItem("language-access-token", data.token);
             });
-          //form.reset();
         })
         .catch((error) => {
           toast.error("Sorry, try again.");
-          console.log(error);
-          //console.log(">>>> ", error.message);
+          // console.log(error);
+          // console.log(">>>> ", error.message);
         });
-      // setMessage("Successfully created your account!");
-      toast("Successfully created your account!");
-      if (photoUrl) {
-        profileUpdate(user, name, photoUrl)
-          .then((result) => {
-            //const loggedUser = result.user;
-            //console.log(loggedUser);
-            form.reset();
-          })
-          .catch((error) => {
-            toast.error("Sorry, try again.");
-            //console.log(error)
-            // console.log(">>>> ", error.message);
-          });
+
+      // update profile
+      if (data.photoURL) {
+        await profileUpdate(data.name, data.photoURL);
       }
-    } else {
-      setError("The email and password you’ve entered is not correct.");
+
+      // save user to database
+      const name = data.name;
+      const email = data.email;
+      const role = "student";
+      const user = {
+        name,
+        email,
+        role,
+      };
+
+      fetch(`${api.apiUrl}/addUser`, {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(user),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          if (data.insertedId) {
+            reset();
+            Swal.fire({
+              position: "top-end",
+              icon: "success",
+              title: "User created successfully.",
+              showConfirmButton: false,
+              timer: 1500,
+            });
+            navigate("/");
+          }
+        });
+    } catch (error) {
+      console.log(error);
     }
-    form.reset();
   };
 
   return (
-    <div className="container mx-auto">
-      <form action="">
+    <div>
+      <div className="hero min-h-screen bg-white">
         <div className="hero-content flex-col lg:flex-row-reverse">
           <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
-            <div className="card-body">
-              <h2 className="text-center font-bold text-2xl">
-                Create an account
-              </h2>
+            <form onSubmit={handleSubmit(onSubmit)} className="card-body">
               <div className="form-control">
                 <label className="label">
-                  <span className="label-text">Full name</span>
+                  <span className="label-text">Name</span>
                 </label>
                 <input
-                  onChange={(e) => setName(e.target.value)}
                   type="text"
+                  {...register("name", { required: true })}
                   name="name"
-                  placeholder="Full name"
+                  placeholder="Name"
                   className="input input-bordered"
                 />
+                {errors.name && (
+                  <span className="text-red-600">Name is required</span>
+                )}
               </div>
               <div className="form-control">
                 <label className="label">
-                  <span className="label-text">Email*</span>
+                  <span className="label-text">Photo URL</span>
                 </label>
                 <input
-                  onChange={(e) => setEmail(e.target.value)}
                   type="text"
+                  {...register("photoURL", { required: true })}
+                  placeholder="Photo URL"
+                  className="input input-bordered"
+                />
+                {errors.photoURL && (
+                  <span className="text-red-600">Photo URL is required</span>
+                )}
+              </div>
+              <div className="form-control">
+                <label className="label">
+                  <span className="label-text">Email</span>
+                </label>
+                <input
+                  type="email"
+                  {...register("email", { required: true })}
                   name="email"
-                  placeholder="email"
+                  placeholder="Email"
                   className="input input-bordered"
                 />
+                {errors.email && (
+                  <span className="text-red-600">Email is required</span>
+                )}
               </div>
               <div className="form-control">
                 <label className="label">
-                  <span className="label-text">Password*</span>
+                  <span className="label-text">Password</span>
                 </label>
                 <input
-                  onChange={(e) => setPassword(e.target.value)}
                   type="password"
-                  name="password"
-                  placeholder="password"
+                  {...register("password", {
+                    required: true,
+                    minLength: 6,
+                    maxLength: 20,
+                    pattern: /(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z])/,
+                  })}
+                  placeholder="Password"
                   className="input input-bordered"
                 />
+                {errors.password?.type === "required" && (
+                  <p className="text-red-600">Password is required</p>
+                )}
+                {errors.password?.type === "minLength" && (
+                  <p className="text-red-600">Password must be 6 characters</p>
+                )}
+                {errors.password?.type === "maxLength" && (
+                  <p className="text-red-600">
+                    Password must be less than 20 characters
+                  </p>
+                )}
+                {errors.password?.type === "pattern" && (
+                  <p className="text-red-600">
+                    Password must have one Uppercase one lower case, one number
+                    and one special character.
+                  </p>
+                )}
               </div>
               <div className="form-control">
                 <label className="label">
-                  <span className="label-text">Photo URL (Optional)</span>
+                  <span className="label-text">Confirm Password</span>
                 </label>
                 <input
-                  onChange={(e) => setPhotoUrl(e.target.value)}
-                  type="text"
-                  name="photoUrl"
-                  placeholder="Photo Url"
+                  type="password"
+                  {...register("confirmPassword", {
+                    required: true,
+                    validate: (value) =>
+                      value === watch("password") || "Passwords does not match",
+                  })}
+                  placeholder="Confirm password"
                   className="input input-bordered"
                 />
+                {errors.confirmPassword && (
+                  <span>{errors.confirmPassword.message}</span>
+                )}
               </div>
-              <div className="form-control mt-6">
-                <button
-                  onClick={handleRegister}
-                  className="btn btn-primary border-0 bg-[#F974B5] hover:bg-[#EC2F8B]"
-                >
-                  Register
-                </button>
 
-                <p className="text-green-600 py-2">{message}</p>
-                <p className="text-red-600 py-2">{error}</p>
+              <div className="form-control mt-6">
+                <input
+                  className="btn btn-primary border border-indigo-700  bg-indigo-500 text-white hover:text-white hover:bg-[#5B51DE]"
+                  type="submit"
+                  value="Sign Up"
+                />
               </div>
-              <p className="p-2 mx-auto">
-                <small className="text-center font-normal text-base">
-                  Already have an account?
-                  <Link className="text-[#198AB7] font-bold mx-2" to="/login">
-                    Login
-                  </Link>
-                </small>
-              </p>
-            </div>
+            </form>
+            <p className="pb-3 mx-auto">
+              <small className="text-center font-normal text-base">
+                Already have an account?
+                <Link className="text-[#5B51DE] font-bold mx-2" to="/login">
+                  Login
+                </Link>
+              </small>
+            </p>
           </div>
           <div className="text-center lg:text-left">
-            <img className="w-2/3 mx-auto" src={img} alt="" />
+            <h1 className="text-5xl font-bold">Sign up now!</h1>
+            <div className="py-6">
+              <img className="w-full" src={img} alt="" />
+            </div>
           </div>
         </div>
-      </form>
-      <ToastContainer />
+      </div>
     </div>
   );
 };

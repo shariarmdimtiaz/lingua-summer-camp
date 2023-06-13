@@ -62,7 +62,7 @@ const Banner = () => {
           </div>
         </div>
       </div>
-      <div className="md:absolute top-[420px] md:top-48 ">
+      {/* <div className="md:absolute top-[420px] md:top-48 ">
         <h1 className="text-center md:text-left ps-5 md:w-1/2">
           <span className="font-extrabold text-[#136F95] text-lg md:text-5xl">
             Discover Endless Fun and Imagination with Our
@@ -72,7 +72,7 @@ const Banner = () => {
             Language Tutor!
           </span>
         </h1>
-      </div>
+      </div> */}
     </div>
   );
 };

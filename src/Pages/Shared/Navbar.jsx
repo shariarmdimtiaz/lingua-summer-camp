@@ -36,8 +36,8 @@ const Navbar = () => {
             </div>
 
             <h1 className="text-black font-bold px-3 text-2xl">
-              <span className="text-black">Language</span>{" "}
-              <span className="text-[#5B51DE]">Tutor</span>
+              <span className="text-black">Lingua</span>{" "}
+              <span className="text-[#5B51DE]">Summer Camp</span>
             </h1>
           </div>
 
