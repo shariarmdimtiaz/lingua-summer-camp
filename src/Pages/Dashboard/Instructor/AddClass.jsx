@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { AuthContext } from "../../../Providers/AuthProviders";
 import Swal from "sweetalert2";
@@ -6,15 +6,22 @@ import Swal from "sweetalert2";
 const api = {
   apiUrl: import.meta.env.VITE_APILINK,
 };
+const image_hosting_token = import.meta.env.VITE_IMAGE_UPLOAD;
+
 const AddClass = () => {
   const { user } = useContext(AuthContext);
-  console.log(user.email);
+  const img_hosting_url = `https://api.imgbb.com/1/upload?key=${image_hosting_token}`;
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
   } = useForm();
+  const [selectedFile, setSelectedFile] = useState();
+
+  const changeHandler = (event) => {
+    setSelectedFile(event.target.files[0]);
+  };
 
   const onSubmit = (data) => {
     const instructorName = data.instructorName;
@@ -22,51 +29,62 @@ const AddClass = () => {
     const className = data.className;
     const totalSeats = parseInt(data.seats);
     const availableSeats = parseInt(data.seats);
-    const enrolledStudents = 0;
-    const price = data.price;
-    const classImage = data.classImage;
+    const price = parseFloat(data.price);
+    let classImage = "";
     const status = "pending";
     const feedback = "";
+    console.log(data);
+    const formData = new FormData();
+    formData.append("image", selectedFile);
 
-    const classInfo = {
-      instructorName,
-      instructorEmail,
-      className,
-      totalSeats,
-      availableSeats,
-      enrolledStudents,
-      price,
-      classImage,
-      status,
-      feedback,
-    };
-
-    fetch(`${api.apiUrl}/addClasses`, {
+    fetch(img_hosting_url, {
       method: "POST",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify(classInfo),
+      body: formData,
     })
       .then((res) => res.json())
-      .then((data) => {
-        //console.log(data);
-        if (data.insertedId) {
-          reset();
-          Swal.fire({
-            position: "top-end",
-            icon: "success",
-            title: "Class has been saved",
-            showConfirmButton: false,
-            timer: 1500,
-          });
+      .then((imgResponse) => {
+        if (imgResponse.success) {
+          classImage = imgResponse.data.display_url;
+          const classInfo = {
+            instructorName,
+            instructorEmail,
+            className,
+            totalSeats,
+            availableSeats,
+            price,
+            classImage,
+            status,
+            feedback,
+          };
+
+          fetch(`${api.apiUrl}/addClasses`, {
+            method: "POST",
+            headers: {
+              "content-type": "application/json",
+            },
+            body: JSON.stringify(classInfo),
+          })
+            .then((res) => res.json())
+            .then((data) => {
+              //console.log(data);
+              if (data.insertedId) {
+                reset();
+                Swal.fire({
+                  position: "top-end",
+                  icon: "success",
+                  title: "Class has been saved",
+                  showConfirmButton: false,
+                  timer: 1500,
+                });
+              }
+            });
         }
       });
   };
 
   return (
     <div>
-      <h1 className="text-center font-bold text-4xl">Add Class</h1>
+      <h1 className="text-center font-bold text-4xl my-4">Add Class</h1>
       <form onSubmit={handleSubmit(onSubmit)} className="card-body">
         <div className="form-control">
           <label className="label">
@@ -74,14 +92,14 @@ const AddClass = () => {
           </label>
           <input
             type="text"
-            {...register("name", { required: true })}
+            {...register("instructorName", { required: true })}
             name="instructorName"
             placeholder="Instructor name"
             defaultValue={user?.displayName}
             readOnly
             className="input input-bordered"
           />
-          {errors.name && (
+          {errors.instructorName && (
             <span className="text-red-600">Instructor name is required</span>
           )}
         </div>
@@ -123,6 +141,7 @@ const AddClass = () => {
           </label>
           <input
             type="number"
+            min="0"
             {...register("seats", { required: true })}
             name="seats"
             placeholder="Available seats"
@@ -139,6 +158,7 @@ const AddClass = () => {
           </label>
           <input
             type="number"
+            min="0"
             {...register("price", { required: true })}
             name="price"
             placeholder="Price"
@@ -149,12 +169,12 @@ const AddClass = () => {
             <span className="text-red-600">Price is required</span>
           )}
         </div>
-        <div className="form-control">
-          <label className="label">
+        <div className="form-control py-2">
+          {/* <label className="label">
             <span className="label-text">Photo URL</span>
           </label>
           <input
-            type="text"
+            type="file"
             {...register("classImage", { required: true })}
             name="classImage"
             placeholder="Photo URL"
@@ -162,7 +182,16 @@ const AddClass = () => {
           />
           {errors.classImage && (
             <span className="text-red-600">Photo URL is required</span>
-          )}
+          )} */}
+          <label className="label">
+            <span className="label-text">Photo URL</span>
+          </label>
+          <input
+            type="file"
+            name="file"
+            onChange={changeHandler}
+            className="file-input file-input-bordered w-full max-w-xs"
+          />
         </div>
 
         <div className="form-control mt-6">

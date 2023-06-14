@@ -24,7 +24,7 @@ const SignUp = () => {
 
   const onSubmit = async (data) => {
     try {
-      console.log(data);
+      // console.log(data);
       // create an account
       createUser(data.email, data.password)
         .then((result) => {
@@ -45,7 +45,7 @@ const SignUp = () => {
             });
         })
         .catch((error) => {
-          toast.error("Sorry, try again.");
+          //toast.error("Sorry, try again.");
           // console.log(error);
           // console.log(">>>> ", error.message);
         });
@@ -59,10 +59,12 @@ const SignUp = () => {
       const name = data.name;
       const email = data.email;
       const role = "student";
+      const img = data.photoURL;
       const user = {
         name,
         email,
         role,
+        img,
       };
 
       fetch(`${api.apiUrl}/addUser`, {

@@ -9,38 +9,15 @@ import { FaTrashAlt, FaUserShield } from "react-icons/fa";
 import Swal from "sweetalert2";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import useAllUser from "../../../Hooks/useAllUser";
 
 const api = {
   apiUrl: import.meta.env.VITE_APILINK,
 };
 
 const ManageUsers = () => {
-  const [users, setUsers] = useState([]);
-
-  //   const [axiosSecure] = useAxiosSecure();
-  //   const { isLoading, users } = useQuery("users", () => {
-  //     return axios.get(`${api.apiUrl}/users`);
-  //   });
-  //   if (isLoading) {
-  //     return <h2>Loading...</h2>;
-  //   }
-
-  useEffect(() => {
-    fetch(`${api.apiUrl}/users`, {
-      method: "GET",
-      headers: {
-        authorization: `Bearer ${localStorage.getItem(
-          "language-access-token"
-        )}`,
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (!data.error) {
-          setUsers(data);
-        }
-      });
-  }, []);
+  const [UserInfo, refetch, userLoading] = useAllUser();
+  console.log(UserInfo);
 
   const handleMakeAdmin = (user) => {
     fetch(`${api.apiUrl}/users/admin/${user._id}`, {
@@ -50,7 +27,7 @@ const ManageUsers = () => {
       .then((data) => {
         console.log(data);
         if (data.modifiedCount) {
-          // refetch();
+          refetch();
           Swal.fire({
             position: "top-end",
             icon: "success",
@@ -61,13 +38,49 @@ const ManageUsers = () => {
         }
       });
   };
+  const handleMakeInstructor = (user) => {
+    fetch(`${api.apiUrl}/users/instructor/${user._id}`, {
+      method: "PATCH",
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        if (data.modifiedCount) {
+          refetch();
+          Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: `${user.name} is an instructor now!`,
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        }
+      });
+  };
 
-  const handleDelete = (user) => {};
+  //TODO
+  const handleDelete = (user) => {
+    const proceed = confirm("Are You sure you want to delete?");
+    if (proceed) {
+      fetch(`${api.apiUrl}/users/${user._id}`, {
+        method: "DELETE",
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          if (data.deletedCount > 0) {
+            refetch();
+            Swal.fire("Deleted!", "User has been deleted.", "success");
+            // alert("Deleted successful!");
+            // const remaining = users.filter((info) => info._id !== user.id);
+            // setUsers(remaining);
+          }
+        });
+    }
+  };
   return (
     <div className="w-full">
-      <h3 className="text-3xl font-semibold my-4">
-        Total Users: {users.length}
-      </h3>
+      <h3 className="text-3xl font-semibold my-4">All Users</h3>
       <div className="overflow-x-auto">
         <table className="table table-zebra w-full">
           {/* head */}
@@ -78,21 +91,28 @@ const ManageUsers = () => {
               <th>Email</th>
               <th>Role</th>
               <th>Action</th>
+              <th>Delete</th>
             </tr>
           </thead>
           <tbody>
-            {users.map((user, index) => (
+            {UserInfo.map((user, index) => (
               <tr key={user._id}>
                 <th>{index + 1}</th>
                 <td>{user.name}</td>
                 <td>{user.email}</td>
+                <td>{user.role}</td>
                 <td>
-                  {user.role === "admin" ? (
-                    "admin"
-                  ) : (
+                  {user.role === "instructor" ? (
                     <button
                       onClick={() => handleMakeAdmin(user)}
-                      className="btn btn-ghost bg-orange-600  text-white"
+                      className="btn btn-ghost bg-red-600  text-white"
+                    >
+                      <FaUserShield></FaUserShield>
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => handleMakeInstructor(user)}
+                      className="btn btn-ghost bg-indigo-600  text-white"
                     >
                       <FaUserShield></FaUserShield>
                     </button>

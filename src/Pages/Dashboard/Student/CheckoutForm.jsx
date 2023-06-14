@@ -1,11 +1,15 @@
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
-import { useEffect } from "react";
-import { useState } from "react";
-import useAxiosSecure from "../../../hooks/useAxiosSecure";
-import useAuth from "../../../hooks/useAuth";
-import "./CheckoutForm.css";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+//import "./Checkout.css";
+import useAuth from "../../../Hooks/useAuth";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import Swal from "sweetalert2";
+const api = {
+  apiUrl: import.meta.env.VITE_APILINK,
+};
 
-const CheckoutForm = ({ cart, price }) => {
+const CheckoutForm = ({ id, classId, className, price }) => {
   const stripe = useStripe();
   const elements = useElements();
   const { user } = useAuth();
@@ -14,6 +18,11 @@ const CheckoutForm = ({ cart, price }) => {
   const [clientSecret, setClientSecret] = useState("");
   const [processing, setProcessing] = useState(false);
   const [transactionId, setTransactionId] = useState("");
+
+  console.log("id", id);
+  console.log("ClassId", classId);
+  console.log("price", price);
+  console.log("class", className);
 
   useEffect(() => {
     if (price > 0) {
@@ -66,27 +75,53 @@ const CheckoutForm = ({ cart, price }) => {
       console.log(confirmError);
     }
 
-    console.log("payment intent", paymentIntent);
+    // console.log("payment intent", paymentIntent);
     setProcessing(false);
     if (paymentIntent.status === "succeeded") {
       setTransactionId(paymentIntent.id);
       // save payment information to the server
       const payment = {
         email: user?.email,
-        transactionId: paymentIntent.id,
+        className,
         price,
+        transactionId: paymentIntent.id,
         date: new Date(),
-        quantity: cart.length,
-        cartItems: cart.map((item) => item._id),
-        menuItems: cart.map((item) => item.menuItemId),
-        status: "service pending",
-        itemNames: cart.map((item) => item.name),
+        status: "Payment done!",
       };
+
       axiosSecure.post("/payments", payment).then((res) => {
-        console.log(res.data);
-        if (res.data.result.insertedId) {
-          // display confirm
-        }
+        fetch(`${api.apiUrl}/classes/enrollment/${id}`, {
+          method: "PATCH",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.modifiedCount > 0) {
+              console.log("modifiedCount:", data.modifiedCount);
+              //refetch();
+              //Swal.fire("Saved!", "", "success");
+            }
+          });
+
+        fetch(`${api.apiUrl}/availableSeats/${classId}`, {
+          method: "PATCH",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.modifiedCount > 0) {
+              //refetch();
+              //Swal.fire("Saved!", "", "success");
+            }
+          });
+        // display confirm
+        Swal.fire("Your payment has been completed.");
       });
     }
   };

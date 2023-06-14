@@ -13,15 +13,15 @@ const Card = ({ classInfo }) => {
     const classImage = data.classImage;
     const className = data.className;
     const price = parseInt(data.price);
-    const paymentId = "";
     const isEnrolled = 0;
+    const classId = data._id;
     const selectedClass = {
       email,
       classImage,
       className,
       price,
-      paymentId,
       isEnrolled,
+      classId,
     };
 
     fetch(`${api.apiUrl}/addSelectedClass`, {
@@ -47,35 +47,103 @@ const Card = ({ classInfo }) => {
   };
   return (
     <div>
-      <div className="card w-96 bg-base-100 shadow-xl">
-        <figure>
-          <img src={classInfo.classImage} alt="Image" />
-        </figure>
-        <div className="card-body">
-          <h2 className="card-title">Class Name: {classInfo.className}</h2>
-          <div className="flex justify-between">
-            <p>
-              Available Seats:{" "}
-              <span className="font-bold">{classInfo.availableSeats}</span>
-            </p>
-            <p>
-              Price: <span className="font-bold">${classInfo.price}</span>
-            </p>
+      {classInfo.availableSeats === 0 ? (
+        <>
+          <div className="card w-96 bg-red-400 shadow-xl">
+            <figure>
+              <img src={classInfo.classImage} alt="Image" />
+            </figure>
+            <div className="card-body">
+              <h2 className="card-title">Class Name: {classInfo.className}</h2>
+              <div className="flex justify-between">
+                <p>
+                  Available Seats:{" "}
+                  <span className="font-bold">{classInfo.availableSeats}</span>
+                </p>
+                <p>
+                  Price: <span className="font-bold">${classInfo.price}</span>
+                </p>
+              </div>
+              <p>
+                Enrolled Students:{" "}
+                <span className="font-bold">
+                  {classInfo.totalSeats - classInfo.availableSeats}
+                </span>
+              </p>
+              <div className="card-actions justify-end">
+                {classInfo.availableSeats === 0 ? (
+                  <>
+                    <button
+                      onClick={() => handleAddToCart(classInfo, user)}
+                      className="btn btn-primary"
+                      disabled
+                    >
+                      Select
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <button
+                      onClick={() => handleAddToCart(classInfo, user)}
+                      className="btn btn-primary"
+                    >
+                      Select
+                    </button>
+                  </>
+                )}
+              </div>
+            </div>
           </div>
-          <p>
-            Enrolled Students:{" "}
-            <span className="font-bold">{classInfo.enrolledStudents}</span>
-          </p>
-          <div className="card-actions justify-end">
-            <button
-              onClick={() => handleAddToCart(classInfo, user)}
-              className="btn btn-primary"
-            >
-              Select
-            </button>
+        </>
+      ) : (
+        <>
+          <div className="card w-96 bg-base-100 shadow-xl">
+            <figure>
+              <img src={classInfo.classImage} alt="Image" />
+            </figure>
+            <div className="card-body">
+              <h2 className="card-title">Class Name: {classInfo.className}</h2>
+              <div className="flex justify-between">
+                <p>
+                  Available Seats:{" "}
+                  <span className="font-bold">{classInfo.availableSeats}</span>
+                </p>
+                <p>
+                  Price: <span className="font-bold">${classInfo.price}</span>
+                </p>
+              </div>
+              <p>
+                Enrolled Students:{" "}
+                <span className="font-bold">
+                  {classInfo.totalSeats - classInfo.availableSeats}
+                </span>
+              </p>
+              <div className="card-actions justify-end">
+                {classInfo.availableSeats === 0 ? (
+                  <>
+                    <button
+                      onClick={() => handleAddToCart(classInfo, user)}
+                      className="btn btn-primary"
+                      disabled
+                    >
+                      Select
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <button
+                      onClick={() => handleAddToCart(classInfo, user)}
+                      className="btn btn-primary"
+                    >
+                      Select
+                    </button>
+                  </>
+                )}
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
+        </>
+      )}
     </div>
   );
 };

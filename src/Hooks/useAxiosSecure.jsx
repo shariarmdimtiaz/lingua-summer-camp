@@ -6,6 +6,7 @@ import axios from "axios";
 const api = {
   apiUrl: import.meta.env.VITE_APILINK,
 };
+
 const axiosSecure = axios.create({
   baseURL: `${api.apiUrl}`,
 });

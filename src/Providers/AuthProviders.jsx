@@ -11,6 +11,7 @@ import {
   updateProfile,
 } from "firebase/auth";
 import app from "./firebase.config";
+import useUserRole from "../Hooks/useUserRole";
 
 export const AuthContext = createContext(null);
 const auth = getAuth(app);
@@ -21,6 +22,32 @@ const githubAuthProvider = new GithubAuthProvider();
 const AuthProviders = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+
+  // const createStudent = (auth) => {
+  //   if (UserRole.role === undefined || UserRole.role === null) {
+  //     // save user to database
+  //     const name = auth.displayName;
+  //     const email = auth.email;
+  //     const role = "student";
+  //     const user = {
+  //       name,
+  //       email,
+  //       role,
+  //     };
+
+  //     fetch(`${api.apiUrl}/addUser`, {
+  //       method: "POST",
+  //       headers: {
+  //         "content-type": "application/json",
+  //       },
+  //       body: JSON.stringify(user),
+  //     })
+  //       .then((res) => res.json())
+  //       .then((data) => {
+  //         //console.log(data);
+  //       });
+  //   }
+  // };
 
   const createUser = (email, password) => {
     setLoading(true);
@@ -56,6 +83,7 @@ const AuthProviders = ({ children }) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
+      //createStudent(auth);
       setLoading(false);
     });
 

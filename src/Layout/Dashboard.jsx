@@ -7,13 +7,11 @@ import {
   FaBook,
   FaUsers,
 } from "react-icons/fa";
-import { BsFillFilePersonFill } from "react-icons/bs";
-// import useCart from "../hooks/useCart";
-import useAdmin from "../hooks/useAdmin";
+import useUserRole from "../Hooks/useUserRole";
 
 const Dashboard = () => {
   // const [cart] = useCart();
-  const [isAdmin] = useAdmin();
+  const [UserRole] = useUserRole();
 
   return (
     <div className="drawer drawer-mobile ">
@@ -30,7 +28,7 @@ const Dashboard = () => {
       <div className="drawer-side bg-[#c1c0c0] border border-indigo-600 rounded-xl">
         <label htmlFor="my-drawer-2" className="drawer-overlay"></label>
         <ul className="menu p-4 w-80">
-          {isAdmin ? (
+          {UserRole?.role === "admin" ? (
             <>
               <li>
                 <NavLink to="/dashboard/adminhome">
@@ -38,17 +36,21 @@ const Dashboard = () => {
                 </NavLink>
               </li>
               <li>
-                <NavLink to="/dashboard/manageusers">
-                  <BsFillFilePersonFill></BsFillFilePersonFill> Manage Users
+                <NavLink to="/dashboard/manageclasses">
+                  <FaBook></FaBook> Manage Classes
                 </NavLink>
               </li>
               <li>
-                <NavLink to="/dashboard/addItem">
-                  {" "}
-                  <FaUtensils></FaUtensils> Add an Item
+                <NavLink to="/dashboard/manageusers">
+                  <FaUsers></FaUsers> Manage Users
                 </NavLink>
               </li>
-
+            </>
+          ) : (
+            <></>
+          )}
+          {UserRole?.role === "instructor" ? (
+            <>
               <li>
                 <NavLink to="/dashboard/instructors/addclass">
                   <FaWallet></FaWallet> Add Class
@@ -59,23 +61,11 @@ const Dashboard = () => {
                   <FaWallet></FaWallet> My Classes
                 </NavLink>
               </li>
-              <li>
-                <NavLink to="/dashboard/students/mySelectedClass">
-                  <FaWallet></FaWallet> My Selected Class
-                </NavLink>
-              </li>
-              <li>
-                <NavLink to="/">
-                  <FaBook></FaBook> Manage Bookings(not implemented)
-                </NavLink>
-              </li>
-              <li>
-                <NavLink to="/dashboard/allusers">
-                  <FaUsers></FaUsers> All Users
-                </NavLink>
-              </li>
             </>
           ) : (
+            <></>
+          )}
+          {UserRole?.role === "student" ? (
             <>
               <li>
                 <NavLink to="/dashboard/userhome">
@@ -83,30 +73,24 @@ const Dashboard = () => {
                 </NavLink>
               </li>
               <li>
-                <NavLink to="/">
-                  <FaCalendarAlt></FaCalendarAlt> Reservations
+                <NavLink to="/dashboard/students/mySelectedClass">
+                  <FaWallet></FaWallet> My Selected Class
                 </NavLink>
               </li>
               <li>
-                <NavLink to="/">
+                <NavLink to="/dashboard/students/myEnrolledClass">
+                  <FaWallet></FaWallet> My Enrolled Class
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/dashboard/students/paymenthistory">
                   <FaWallet></FaWallet> Payment History
                 </NavLink>
               </li>
             </>
+          ) : (
+            <></>
           )}
-
-          <div className="divider"></div>
-          <li>
-            <NavLink to="/">
-              <FaHome></FaHome> Home
-            </NavLink>{" "}
-          </li>
-          <li>
-            <NavLink to="/menu"> Our Menu</NavLink>
-          </li>
-          <li>
-            <NavLink to="/order/salad">Order Food</NavLink>
-          </li>
         </ul>
       </div>
     </div>

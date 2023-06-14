@@ -17,10 +17,13 @@ import MyClasses from "../Pages/Dashboard/Instructor/MyClasses";
 import MySelectedClasses from "../Pages/Dashboard/Student/MySelectedClasses";
 import MyEnrolledClasses from "../Pages/Dashboard/Student/MyEnrolledClasses";
 import Payment from "../Pages/Dashboard/Student/Payment";
+import ManageClasses from "../Pages/Dashboard/Admin/ManageClasses";
+import Feedback from "../Pages/Dashboard/Admin/Feedback";
+import PaymentHistory from "../Pages/Dashboard/Student/PaymentHistory";
 
-// const api = {
-//   apiUrl: import.meta.env.VITE_APILINK,
-// };
+const api = {
+  apiUrl: import.meta.env.VITE_APILINK,
+};
 
 const router = createBrowserRouter([
   {
@@ -58,8 +61,21 @@ const router = createBrowserRouter([
         ),
         children: [
           {
+            path: "dashboard",
+            element: <AdminHome></AdminHome>,
+          },
+          {
             path: "adminhome",
             element: <AdminHome></AdminHome>,
+          },
+          {
+            path: "manageclasses",
+            element: <ManageClasses></ManageClasses>,
+          },
+          {
+            path: "feedback/:id",
+            element: <Feedback></Feedback>,
+            loader: ({ params }) => fetch(`${api.apiUrl}/class/${params.id}`),
           },
           {
             path: "manageusers",
@@ -94,6 +110,10 @@ const router = createBrowserRouter([
               {
                 path: "payment",
                 element: <Payment></Payment>,
+              },
+              {
+                path: "paymenthistory",
+                element: <PaymentHistory></PaymentHistory>,
               },
             ],
           },
