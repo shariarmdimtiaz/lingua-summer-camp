@@ -3,19 +3,19 @@ import icon from "../../assets/logo.png";
 
 const Footer = () => {
   return (
-    <footer className="bg-[#198AB7] text-white">
+    <footer className="text-black border border-indigo-600 rounded-xl">
       <div className="container mx-auto py-12 px-4">
         <div className="pb-9 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-4">
           <div>
             <div className="flex items-center">
               <div className="avatar">
                 <div className="w-24 rounded-xl">
-                  <img src={icon} />
+                  <img className="" src={icon} />
                 </div>
               </div>
-              <h1 className="text-black font-bold text-2xl">
-                <span className="text-[#F974B5]">Language</span>{" "}
-                <span className="text-white">Tutor</span>
+              <h1 className="text-black font-bold text-2xl ps-2">
+                <span className="text-indigo-600">Lingua</span>{" "}
+                <span className="text-black">Summer Camp</span>
               </h1>
             </div>
             <p className="font-light text-left py-3">
@@ -84,7 +84,7 @@ const Footer = () => {
                 <li>
                   <a
                     href="#"
-                    className="text-gray-100 hover:text-gray-200 mr-4 px-2"
+                    className="text-gray-700 hover:text-gray-400 mr-4 px-2"
                   >
                     <FaFacebook />
                   </a>
@@ -92,7 +92,7 @@ const Footer = () => {
                 <li>
                   <a
                     href="#"
-                    className="text-gray-100 hover:text-gray-200 mr-4 px-2"
+                    className="text-gray-700 hover:text-gray-400 mr-4 px-2"
                   >
                     <FaTwitter />
                   </a>
@@ -100,7 +100,7 @@ const Footer = () => {
                 <li>
                   <a
                     href="#"
-                    className="text-gray-100 hover:text-gray-200 mr-4 px-2"
+                    className="text-gray-700 hover:text-gray-400 mr-4 px-2"
                   >
                     <FaInstagram />
                   </a>
@@ -111,16 +111,17 @@ const Footer = () => {
         </div>
       </div>
 
-      <div className="bg-[#136F95] py-12">
+      <div className=" py-12">
         <div className="container mx-auto px-4 md:flex justify-center">
           <div>
             <p className="text-center">
-              @2023 Language Tutor. All Rights Reserved
+              @2023 Lingua Summer Camp. All Rights Reserved
             </p>
           </div>
           <div>
             <p className="text-center">
-              Powered by <span className="font-extrabold">Language Tutor</span>
+              Powered by{" "}
+              <span className="font-extrabold">Lingua Summer Camp</span>
             </p>
           </div>
         </div>
