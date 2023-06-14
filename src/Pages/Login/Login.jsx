@@ -5,12 +5,7 @@ import img from "../../assets/login.png";
 import googleIcon from "../../assets/google.png";
 import githubIcon from "../../assets/github.png";
 import { useForm } from "react-hook-form";
-import {
-  AiOutlineEye,
-  AiOutlineEyeInvisible,
-  AiFillGoogleCircle,
-  AiFillGithub,
-} from "react-icons/ai";
+import { AiFillGoogleCircle, AiFillGithub } from "react-icons/ai";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { TabTitle } from "../../utils/GeneralFunctions";

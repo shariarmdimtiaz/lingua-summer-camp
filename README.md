@@ -1,4 +1,4 @@
-# [Language Tutor]()
+# [Lingua Summer Camp](https://language-school-a1223.web.app/)
 
 Description:
 
@@ -11,8 +11,7 @@ Description:
 
 ## Live Link (Web)
 
-- Hosted in Firebase (Live) ->
-- API hosted in Vercen (Live) ->
+- Hosted in Firebase (Live) -> https://language-school-a1223.web.app/
 
 ## Live Link (Data)
 
@@ -25,6 +24,10 @@ Documentation Link -> [Link](https://reactrouter.com/en/main/start/overview)
 ## React Toastify
 
 Documentation Link -> [Link](https://www.npmjs.com/package/react-toastify?activeTab=readme)
+
+## sweetalert2
+
+Documentation Link -> [Link](https://sweetalert2.github.io/)
 
 ## More
 
