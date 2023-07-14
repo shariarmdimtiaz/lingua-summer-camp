@@ -1,7 +1,9 @@
+import { Helmet } from "react-helmet";
+
 const PopularCard = ({ classInfo }) => {
   return (
-    <div>
-      <div className="card w-96 bg-base-100 shadow-xl">
+    <div className="mx-auto">
+      <div className="card w-96 border border-indigo-600 shadow-xl">
         <figure>
           <img src={classInfo.classImage} alt="Image" />
         </figure>

@@ -32,7 +32,7 @@ const MyClasses = () => {
     <div className="w-full">
       <h3 className="text-3xl text-center font-semibold my-4">My Classes</h3>
       <div className="overflow-x-auto">
-        <table className="table table-zebra w-full">
+        <table className="table table-zebra w-full text-black">
           {/* head */}
           <thead>
             <tr>

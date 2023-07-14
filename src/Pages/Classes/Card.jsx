@@ -49,7 +49,7 @@ const Card = ({ classInfo }) => {
     <div>
       {classInfo.availableSeats === 0 ? (
         <>
-          <div className="card w-96 bg-red-400 shadow-xl">
+          <div className="card w-96 bg-red-400 border border-indigo-600 shadow-xl">
             <figure>
               <img src={classInfo.classImage} alt="Image" />
             </figure>
@@ -97,7 +97,7 @@ const Card = ({ classInfo }) => {
         </>
       ) : (
         <>
-          <div className="card w-96 bg-base-100 shadow-xl">
+          <div className="card w-96 border border-indigo-600 shadow-xl">
             <figure>
               <img src={classInfo.classImage} alt="Image" />
             </figure>

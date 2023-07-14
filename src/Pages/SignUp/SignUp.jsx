@@ -4,8 +4,10 @@ import { AuthContext } from "../../Providers/AuthProviders";
 import img from "../../assets/login.png";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
+import { ThemeContext } from "../../Providers/ThemeProvider";
 
 const SignUp = () => {
+  const { containerStyles } = useContext(ThemeContext);
   const {
     register,
     handleSubmit,
@@ -19,8 +21,8 @@ const SignUp = () => {
   const api = {
     apiUrl: import.meta.env.VITE_APILINK,
   };
-  const jwtUrl = `${api.apiLink}/jwt`;
-  //const from = location.state?.from?.pathname || "/";
+  const jwtUrl = `${api.apiUrl}/jwt`;
+  const from = location.state?.from?.pathname || "/";
 
   const onSubmit = async (data) => {
     try {
@@ -46,63 +48,42 @@ const SignUp = () => {
         })
         .catch((error) => {
           //toast.error("Sorry, try again.");
-          // console.log(error);
+          //console.log(error);
           // console.log(">>>> ", error.message);
         });
 
-      // update profile
-      if (data.photoURL) {
-        await profileUpdate(data.name, data.photoURL);
-      }
-
-      // save user to database
-      const name = data.name;
-      const email = data.email;
-      const role = "student";
-      const img = data.photoURL;
-      const user = {
-        name,
-        email,
-        role,
-        img,
-      };
-
-      fetch(`${api.apiUrl}/addUser`, {
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
-        },
-        body: JSON.stringify(user),
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          console.log(data);
-          if (data.insertedId) {
-            reset();
-            Swal.fire({
-              position: "top-end",
-              icon: "success",
-              title: "User created successfully.",
-              showConfirmButton: false,
-              timer: 1500,
-            });
-            navigate("/");
-          }
+      if (data.name || data.photoURL) {
+        profileUpdate({
+          displayName: data.name,
+          photoURL: data.photoURL,
+        }).then((result) => {
+          //const userInfo = result.user;
+          // console.log("userInfo >>", result);
+          reset();
+          Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "User created successfully.",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          navigate("/");
         });
+      }
     } catch (error) {
       console.log(error);
     }
   };
 
   return (
-    <div>
-      <div className="hero min-h-screen bg-white">
+    <div style={containerStyles}>
+      <div className="hero min-h-screen ">
         <div className="hero-content flex-col lg:flex-row-reverse">
-          <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
+          <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl">
             <form onSubmit={handleSubmit(onSubmit)} className="card-body">
               <div className="form-control">
                 <label className="label">
-                  <span className="label-text">Name</span>
+                  <span className="">Name</span>
                 </label>
                 <input
                   type="text"
@@ -117,7 +98,7 @@ const SignUp = () => {
               </div>
               <div className="form-control">
                 <label className="label">
-                  <span className="label-text">Photo URL</span>
+                  <span className="">Photo URL</span>
                 </label>
                 <input
                   type="text"
@@ -131,7 +112,7 @@ const SignUp = () => {
               </div>
               <div className="form-control">
                 <label className="label">
-                  <span className="label-text">Email</span>
+                  <span className="">Email</span>
                 </label>
                 <input
                   type="email"
@@ -146,7 +127,7 @@ const SignUp = () => {
               </div>
               <div className="form-control">
                 <label className="label">
-                  <span className="label-text">Password</span>
+                  <span className="">Password</span>
                 </label>
                 <input
                   type="password"
@@ -179,7 +160,7 @@ const SignUp = () => {
               </div>
               <div className="form-control">
                 <label className="label">
-                  <span className="label-text">Confirm Password</span>
+                  <span className="">Confirm Password</span>
                 </label>
                 <input
                   type="password"

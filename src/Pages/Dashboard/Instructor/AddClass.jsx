@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { AuthContext } from "../../../Providers/AuthProviders";
 import Swal from "sweetalert2";
@@ -88,7 +88,7 @@ const AddClass = () => {
       <form onSubmit={handleSubmit(onSubmit)} className="card-body">
         <div className="form-control">
           <label className="label">
-            <span className="label-text">Instructor Name</span>
+            <span className="">Instructor Name</span>
           </label>
           <input
             type="text"
@@ -97,7 +97,7 @@ const AddClass = () => {
             placeholder="Instructor name"
             defaultValue={user?.displayName}
             readOnly
-            className="input input-bordered"
+            className="input input-bordered text-black"
           />
           {errors.instructorName && (
             <span className="text-red-600">Instructor name is required</span>
@@ -105,7 +105,7 @@ const AddClass = () => {
         </div>
         <div className="form-control">
           <label className="label">
-            <span className="label-text">Instructor Email</span>
+            <span className="">Instructor Email</span>
           </label>
           <input
             type="text"
@@ -114,7 +114,7 @@ const AddClass = () => {
             placeholder="Instructor email"
             defaultValue={user?.email}
             readOnly
-            className="input input-bordered"
+            className="input input-bordered text-black"
           />
           {errors.email && (
             <span className="text-red-600">Email is required</span>
@@ -122,14 +122,14 @@ const AddClass = () => {
         </div>
         <div className="form-control">
           <label className="label">
-            <span className="label-text">Class Name</span>
+            <span className="">Class Name</span>
           </label>
           <input
             type="text"
             {...register("className", { required: true })}
             name="className"
             placeholder="Class name"
-            className="input input-bordered"
+            className="input input-bordered text-black"
           />
           {errors.className && (
             <span className="text-red-600">Class name is required</span>
@@ -137,7 +137,7 @@ const AddClass = () => {
         </div>
         <div className="form-control">
           <label className="label">
-            <span className="label-text">Available Seats</span>
+            <span className="">Available Seats</span>
           </label>
           <input
             type="number"
@@ -146,7 +146,7 @@ const AddClass = () => {
             name="seats"
             placeholder="Available seats"
             defaultValue={""}
-            className="input input-bordered"
+            className="input input-bordered text-black"
           />
           {errors.seats && (
             <span className="text-red-600">Available seat is required</span>
@@ -154,7 +154,7 @@ const AddClass = () => {
         </div>
         <div className="form-control">
           <label className="label">
-            <span className="label-text">Price</span>
+            <span className="">Price</span>
           </label>
           <input
             type="number"
@@ -163,34 +163,21 @@ const AddClass = () => {
             name="price"
             placeholder="Price"
             defaultValue={""}
-            className="input input-bordered"
+            className="input input-bordered text-black"
           />
           {errors.price && (
             <span className="text-red-600">Price is required</span>
           )}
         </div>
         <div className="form-control py-2">
-          {/* <label className="label">
-            <span className="label-text">Photo URL</span>
-          </label>
-          <input
-            type="file"
-            {...register("classImage", { required: true })}
-            name="classImage"
-            placeholder="Photo URL"
-            className="input input-bordered"
-          />
-          {errors.classImage && (
-            <span className="text-red-600">Photo URL is required</span>
-          )} */}
           <label className="label">
-            <span className="label-text">Photo URL</span>
+            <span className="">Photo URL</span>
           </label>
           <input
             type="file"
             name="file"
             onChange={changeHandler}
-            className="file-input file-input-bordered w-full max-w-xs"
+            className="file-input file-input-bordered text-black w-full max-w-xs"
           />
         </div>
 

@@ -19,11 +19,6 @@ const CheckoutForm = ({ id, classId, className, price }) => {
   const [processing, setProcessing] = useState(false);
   const [transactionId, setTransactionId] = useState("");
 
-  console.log("id", id);
-  console.log("ClassId", classId);
-  console.log("price", price);
-  console.log("class", className);
-
   useEffect(() => {
     if (price > 0) {
       axiosSecure.post("/create-payment-intent", { price }).then((res) => {
@@ -51,7 +46,7 @@ const CheckoutForm = ({ id, classId, className, price }) => {
     });
 
     if (error) {
-      console.log("error", error);
+      // console.log("error", error);
       setCardError(error.message);
     } else {
       setCardError("");
@@ -106,7 +101,7 @@ const CheckoutForm = ({ id, classId, className, price }) => {
             }
           });
 
-        fetch(`${api.apiUrl}/availableSeats/${classId}`, {
+        fetch(`${api.apiUrl}/updateAvailableSeats/${classId}`, {
           method: "PATCH",
           headers: {
             "content-type": "application/json",
@@ -115,9 +110,9 @@ const CheckoutForm = ({ id, classId, className, price }) => {
         })
           .then((res) => res.json())
           .then((data) => {
+            console.log("available students >>>", data);
             if (data.modifiedCount > 0) {
-              //refetch();
-              //Swal.fire("Saved!", "", "success");
+              Swal.fire("Updated available seats!", "", "success");
             }
           });
         // display confirm
@@ -128,7 +123,8 @@ const CheckoutForm = ({ id, classId, className, price }) => {
 
   return (
     <>
-      <form className="w-2/3 m-8" onSubmit={handleSubmit}>
+      <form className="m-10 md:px-10" onSubmit={handleSubmit}>
+        <p className="pb-3 font-bold">Your bill: ${price}</p>
         <CardElement
           options={{
             style: {
@@ -146,16 +142,16 @@ const CheckoutForm = ({ id, classId, className, price }) => {
           }}
         />
         <button
-          className="btn btn-primary btn-sm mt-4"
+          className="btn btn-primary btn-sm mt-4 border-0  hover:bg-green-600 hover:border-0"
           type="submit"
           //   disabled={!stripe || !clientSecret || processing}
         >
-          Pay
+          Check out
         </button>
       </form>
-      {cardError && <p className="text-red-600 ml-8">{cardError}</p>}
+      {cardError && <p className="text-red-600 ml-8 pb-5">{cardError}</p>}
       {transactionId && (
-        <p className="text-green-500">
+        <p className="text-green-500 pb-5">
           Transaction complete with transactionId: {transactionId}
         </p>
       )}

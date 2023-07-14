@@ -55,13 +55,14 @@ const router = createBrowserRouter([
         path: "dashboard",
         element: (
           <Dashboard></Dashboard>
+
           // <PrivateRoute>
           //   <Dashboard></Dashboard>
           // </PrivateRoute>
         ),
         children: [
           {
-            path: "dashboard",
+            path: "/dashboard",
             element: <AdminHome></AdminHome>,
           },
           {
@@ -99,6 +100,10 @@ const router = createBrowserRouter([
             path: "students",
             //element: <StudentHome></StudentHome>,
             children: [
+              // {
+              //   path: "/students",
+              //   element: <StudentHome></StudentHome>,
+              // },
               {
                 path: "mySelectedClass",
                 element: <MySelectedClasses></MySelectedClasses>,

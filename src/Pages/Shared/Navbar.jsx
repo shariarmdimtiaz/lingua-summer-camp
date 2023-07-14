@@ -3,9 +3,11 @@ import { AuthContext } from "../../Providers/AuthProviders";
 import { Link, useLocation } from "react-router-dom";
 import classNames from "classnames";
 import icon from "../../assets/logo.png";
+import { ThemeContext } from "../../Providers/ThemeProvider";
 
 const Navbar = () => {
   const { user, logOut } = useContext(AuthContext);
+  const { handleToggle, containerStyles } = useContext(ThemeContext);
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
 
@@ -25,7 +27,7 @@ const Navbar = () => {
     setIsOpen(!isOpen);
   };
   return (
-    <div className="w-full bg-white">
+    <div className="w-full" style={containerStyles}>
       <nav className="container mx-auto">
         <div className="mx-auto py-6 flex justify-between items-center">
           <div className="flex items-center">
@@ -35,10 +37,9 @@ const Navbar = () => {
               </div>
             </div>
 
-            <h1 className="text-black font-bold px-3 text-2xl">
-              <span className="text-indigo-600">Lingua</span>{" "}
-              <span className="text-black">Summer Camp</span>
-            </h1>
+            {/* <h1 className="font-bold px-3 text-2xl">
+              <span className="text-amber-500">Summer Camp</span>
+            </h1> */}
           </div>
 
           <div className="sm:hidden">
@@ -69,9 +70,8 @@ const Navbar = () => {
             <Link
               to="/"
               className={classNames("font-bold py-2 px-4 mr-3 rounded", {
-                "text-white bg-[#5B51DE] ": isActive("/"),
-                "text-black hover:bg-[#5B51DE] hover:text-white":
-                  !isActive("/"),
+                "bg-[#5B51DE] text-white": isActive("/"),
+                "hover:bg-[#5B51DE] hover:text-white": !isActive("/"),
               })}
             >
               Home
@@ -79,8 +79,8 @@ const Navbar = () => {
             <Link
               to="/instructors"
               className={classNames("font-bold py-2 px-4 mr-3 rounded", {
-                "text-white bg-[#5B51DE] font-bold": isActive("/instructors"),
-                "text-black hover:bg-[#5B51DE] hover:text-white":
+                " bg-[#5B51DE] font-bold text-white": isActive("/instructors"),
+                " hover:bg-[#5B51DE] hover:text-white":
                   !isActive("/instructors"),
               })}
             >
@@ -89,9 +89,8 @@ const Navbar = () => {
             <Link
               to="/classes"
               className={classNames("font-bold py-2 px-4 mr-3 rounded", {
-                "text-white bg-[#5B51DE]": isActive("/classes"),
-                "text-black hover:bg-[#5B51DE] hover:text-white":
-                  !isActive("/classes"),
+                "bg-[#5B51DE] font-bold text-white": isActive("/classes"),
+                "hover:bg-[#5B51DE] hover:text-white": !isActive("/classes"),
               })}
             >
               Classes
@@ -100,8 +99,8 @@ const Navbar = () => {
               <Link
                 to="/dashboard"
                 className={classNames("font-bold py-2 px-4 mr-3 rounded", {
-                  "text-white bg-[#5B51DE]": isActive("/dashboard"),
-                  "text-black hover:bg-[#5B51DE] hover:text-white":
+                  "bg-[#5B51DE] font-bold text-white": isActive("/dashboard"),
+                  "hover:bg-[#5B51DE] hover:text-white":
                     !isActive("/dashboard"),
                 })}
               >
@@ -110,25 +109,24 @@ const Navbar = () => {
             ) : (
               ""
             )}
-            {/* <Link
-              to="/blog"
-              className={classNames("py-2 px-6 rounded", {
-                "text-white bg-[#3197C0] font-bold": isActive("/blog"),
-                "text-white hover:bg-[#3197C0] hover:text-white":
-                  !isActive("/blog"),
-              })}
-            >
-              Blogs
-            </Link> */}
           </div>
 
-          <div className="hidden md:block">
+          <div className="hidden md:block md:flex md:justify-center md:items-center">
+            <div className="">
+              <input
+                onClick={handleToggle}
+                type="checkbox"
+                className="toggle mx-2"
+              />
+            </div>
             {!user ? (
-              <Link to="/login" className="">
-                <button className="btn btn-primary border-indigo-700 px-5 bg-white text-black hover:text-white  hover:bg-[#5B51DE] hover:border-indigo-700">
-                  Login
-                </button>
-              </Link>
+              <>
+                <Link to="/login" className="">
+                  <button className="btn btn-primary border-indigo-700 px-5 bg-white text-black hover:text-white  hover:bg-[#5B51DE] hover:border-indigo-700">
+                    Login
+                  </button>
+                </Link>
+              </>
             ) : (
               <div className="dropdown dropdown-end">
                 <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
@@ -172,27 +170,27 @@ const Navbar = () => {
           <div className="sm:hidden">
             <Link
               to="/"
-              className="block text-black hover:bg-[#136F95] hover:text-white px-3 py-2 rounded-md text-base font-medium"
+              className="block hover:bg-[#5B51DE] hover:text-white px-3 py-2 rounded-md text-base font-medium"
             >
               Home
             </Link>
 
             <Link
               to="/instructors"
-              className="block text-black hover:bg-[#136F95] hover:text-white px-3 py-2 rounded-md text-base font-medium"
+              className="block hover:bg-[#5B51DE] hover:text-white px-3 py-2 rounded-md text-base font-medium"
             >
               Instructors
             </Link>
             <Link
               to="/classes"
-              className="block text-black hover:bg-[#136F95] hover:text-white px-3 py-2 rounded-md text-base font-medium"
+              className="block hover:bg-[#5B51DE] hover:text-white px-3 py-2 rounded-md text-base font-medium"
             >
               Classes
             </Link>
             {user ? (
               <Link
                 to="/dashboard"
-                className="block text-black hover:bg-[#136F95] hover:text-white px-3 py-2 rounded-md text-base font-medium"
+                className="block hover:bg-[#5B51DE] hover:text-white px-3 py-2 rounded-md text-base font-medium"
               >
                 Dashboard
               </Link>
@@ -200,23 +198,22 @@ const Navbar = () => {
               ""
             )}
 
-            {/* <Link
-              to="/blog"
-              className="block text-black hover:bg-[#136F95] hover:text-white px-3 py-2 rounded-md text-base font-medium"
-            >
-              Blog
-            </Link> */}
             <div>
+              <input
+                onClick={handleToggle}
+                type="checkbox"
+                className="toggle mx-2 block"
+              />
               {!user ? (
                 <Link to="/login" className="">
-                  <button className="btn btn-primary border-0 bg-gradient-to-r from-[#FF8C00] to-[#FFA036] hover:text-black">
+                  <button className="btn btn-primary ms-2 mt-2 border-indigo-700 px-5 bg-white text-black hover:text-white  hover:bg-[#5B51DE] hover:border-indigo-700">
                     Login
                   </button>
                 </Link>
               ) : (
                 <button
                   onClick={handleLogOut}
-                  className="btn btn-warning mt-2 hover:text-white"
+                  className="btn btn-warning ms-2 mt-2 hover:text-white"
                 >
                   Logout
                 </button>
@@ -224,6 +221,10 @@ const Navbar = () => {
             </div>
           </div>
         )}
+
+        {/* <div style={containerStyles}>
+          <button onClick={handleToggle}>Toggle Mode</button>
+        </div> */}
       </nav>
     </div>
   );

@@ -1,10 +1,13 @@
+import { useContext } from "react";
 import useAllInstructor from "../../../Hooks/useAllInstructor";
 import InfoCard from "./InfoCard";
+import { ThemeContext } from "../../../Providers/ThemeProvider";
 
 const PopularInstructors = () => {
+  const { containerStyles } = useContext(ThemeContext);
   const [AllInstructor, refetch, dataLoading] = useAllInstructor();
   return (
-    <div>
+    <div style={containerStyles}>
       <div data-aos="fade-left" className="container mx-auto">
         <h2 className="font-bold text-5xl text-black text-center pt-[50px]">
           Popular Instructors

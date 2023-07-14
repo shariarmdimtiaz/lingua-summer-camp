@@ -3,6 +3,7 @@ import homeImage from "../../../assets/analytics.gif";
 import { AuthContext } from "../../../Providers/AuthProviders";
 const StudentHome = () => {
   const { user } = useContext(AuthContext);
+  console.log(user);
   return (
     <div>
       <div className="bg-white mx-auto">

@@ -1,7 +1,7 @@
 const InfoCard = ({ instructor }) => {
   return (
-    <div>
-      <div className="card w-96 bg-base-100 shadow-xl">
+    <div className="mx-auto">
+      <div className="card w-96 border border-indigo-600 shadow-xl">
         <figure>
           <img src={instructor.img} alt="Classes" />
         </figure>

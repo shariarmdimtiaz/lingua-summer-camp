@@ -11,8 +11,10 @@ import "react-toastify/dist/ReactToastify.css";
 import { TabTitle } from "../../utils/GeneralFunctions";
 import { Helmet } from "react-helmet";
 import Swal from "sweetalert2";
+import { ThemeContext } from "../../Providers/ThemeProvider";
 
 const Login = () => {
+  const { containerStyles } = useContext(ThemeContext);
   const { user, signIn, signInWithGoogle, signInWithGithub } =
     useContext(AuthContext);
   const {
@@ -216,17 +218,17 @@ const Login = () => {
   }, [user]);
 
   return (
-    <>
+    <div style={containerStyles}>
       <Helmet>
         <title>Language Tutor | Login</title>
       </Helmet>
-      <div className="hero min-h-screen bg-white">
+      <div className="hero min-h-screen">
         <div className="hero-content flex-col lg:flex-row-reverse">
-          <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
+          <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl">
             <form onSubmit={handleSubmit(onSubmit)} className="card-body">
               <div className="form-control">
                 <label className="label">
-                  <span className="label-text">Email</span>
+                  <span className="">Email</span>
                 </label>
                 <input
                   type="email"
@@ -241,7 +243,7 @@ const Login = () => {
               </div>
               <div className="form-control">
                 <label className="label">
-                  <span className="label-text">Password</span>
+                  <span className="">Password</span>
                 </label>
                 <input
                   type="password"
@@ -309,7 +311,7 @@ const Login = () => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

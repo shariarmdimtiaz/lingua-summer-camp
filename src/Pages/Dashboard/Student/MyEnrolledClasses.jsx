@@ -4,6 +4,7 @@ import { FaTrashAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import useEnrolledClasses from "../../../Hooks/useEnrolledClasses";
+import { ThemeContext } from "../../../Providers/ThemeProvider";
 
 const api = {
   apiUrl: import.meta.env.VITE_APILINK,
@@ -11,6 +12,7 @@ const api = {
 
 const MyEnrolledClasses = () => {
   const [EnrolledClasses, refetch, dataLoading] = useEnrolledClasses();
+  const { containerStyles } = useContext(ThemeContext);
 
   const handleDelete = (id) => {
     Swal.fire({
@@ -48,11 +50,11 @@ const MyEnrolledClasses = () => {
           {/* head */}
           <thead>
             <tr>
-              <th>#</th>
-              <th>Image</th>
-              <th>Class Name</th>
-              <th>Price</th>
-              <th>Delete</th>
+              <th style={containerStyles}>#</th>
+              <th style={containerStyles}>Image</th>
+              <th style={containerStyles}>Class Name</th>
+              <th style={containerStyles}>Price</th>
+              <th style={containerStyles}>Delete</th>
             </tr>
           </thead>
           <tbody>

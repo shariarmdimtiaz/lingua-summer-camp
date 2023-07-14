@@ -12,7 +12,7 @@ const api = {
 const MySelectedClasses = () => {
   const { user } = useContext(AuthContext);
   const [SelectedClasses, refetch, dataLoading] = useSelectedClasses();
-  console.log(SelectedClasses);
+  //console.log(user.displayName);
 
   const handleDelete = (id) => {
     Swal.fire({

@@ -1,9 +1,13 @@
 import { FaFacebook, FaTwitter, FaInstagram } from "react-icons/fa";
 import icon from "../../assets/logo.png";
+import { useContext } from "react";
+import { ThemeContext } from "../../Providers/ThemeProvider";
 
 const Footer = () => {
+  const { containerStyles } = useContext(ThemeContext);
   return (
-    <footer className="text-black border border-indigo-600 rounded-xl">
+    <footer style={containerStyles}>
+      <hr></hr>
       <div className="container mx-auto py-12 px-4">
         <div className="pb-9 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-4">
           <div>
@@ -13,9 +17,10 @@ const Footer = () => {
                   <img className="" src={icon} />
                 </div>
               </div>
-              <h1 className="text-black font-bold text-2xl ps-2">
+              <h1 className=" font-bold text-2xl ps-2">
                 <span className="text-indigo-600">Lingua</span>{" "}
-                <span className="text-black">Summer Camp</span>
+                <p className="text-amber-500">Summer</p>
+                <p className="text-amber-500">Camp</p>
               </h1>
             </div>
             <p className="font-light text-left py-3">
@@ -82,26 +87,17 @@ const Footer = () => {
               <h2 className="text-lg font-bold mb-4 pt-2 ps-5">Follow Us</h2>
               <ul className="flex ps-5 -mt-5">
                 <li>
-                  <a
-                    href="#"
-                    className="text-gray-700 hover:text-gray-400 mr-4 px-2"
-                  >
+                  <a href="#" className=" hover:text-gray-400 mr-4 px-2">
                     <FaFacebook />
                   </a>
                 </li>
                 <li>
-                  <a
-                    href="#"
-                    className="text-gray-700 hover:text-gray-400 mr-4 px-2"
-                  >
+                  <a href="#" className=" hover:text-gray-400 mr-4 px-2">
                     <FaTwitter />
                   </a>
                 </li>
                 <li>
-                  <a
-                    href="#"
-                    className="text-gray-700 hover:text-gray-400 mr-4 px-2"
-                  >
+                  <a href="#" className=" hover:text-gray-400 mr-4 px-2">
                     <FaInstagram />
                   </a>
                 </li>
@@ -110,9 +106,8 @@ const Footer = () => {
           </div>
         </div>
       </div>
-      <hr />
 
-      <div className=" py-12">
+      <div className="pb-12">
         <div className="container mx-auto px-4 md:flex justify-center">
           <div>
             <p className="text-center">
@@ -121,8 +116,7 @@ const Footer = () => {
           </div>
           <div>
             <p className="text-center">
-              Powered by{" "}
-              <span className="font-extrabold">Lingua Summer Camp</span>
+              Powered by <span className="font-extrabold">Lingua</span>
             </p>
           </div>
         </div>

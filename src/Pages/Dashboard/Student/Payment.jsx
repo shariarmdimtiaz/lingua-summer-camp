@@ -11,16 +11,18 @@ const Payment = () => {
 
   const paymentPrice = parseFloat(price.toFixed(2));
   return (
-    <div>
-      <h2 className="text-3xl"> Card Info...</h2>
-      <Elements stripe={stripePromise}>
-        <CheckoutForm
-          id={id}
-          classId={classId}
-          className={className}
-          price={paymentPrice}
-        ></CheckoutForm>
-      </Elements>
+    <div className="w-[1024px] text-center mx-auto">
+      <h2 className="text-3xl py-12"> Credit/Debit Card</h2>
+      <div className="border border-indigo-600 rounded-xl">
+        <Elements stripe={stripePromise}>
+          <CheckoutForm
+            id={id}
+            classId={classId}
+            className={className}
+            price={paymentPrice}
+          ></CheckoutForm>
+        </Elements>
+      </div>
     </div>
   );
 };

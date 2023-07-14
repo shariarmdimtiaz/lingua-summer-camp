@@ -5,7 +5,7 @@ const InstructorHome = () => {
   const { user } = useContext(AuthContext);
   return (
     <div>
-      <div className="bg-white mx-auto">
+      <div className="mx-auto">
         <h1 className="text-center text-3xl">
           Welcome !!! Mr. <span className="font-bold">{user?.displayName}</span>
         </h1>

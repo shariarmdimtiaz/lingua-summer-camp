@@ -11,7 +11,6 @@ import {
   updateProfile,
 } from "firebase/auth";
 import app from "./firebase.config";
-import useUserRole from "../Hooks/useUserRole";
 
 export const AuthContext = createContext(null);
 const auth = getAuth(app);
@@ -54,11 +53,21 @@ const AuthProviders = ({ children }) => {
     return createUserWithEmailAndPassword(auth, email, password);
   };
 
-  const profileUpdate = (name, photoUrl) => {
+  const profileUpdate = (data) => {
+    console.log("**********data************", data);
+    console.log("**********name************", data.displayName);
     updateProfile(auth.currentUser, {
-      displayName: name,
-      photoURL: photoUrl,
-    });
+      displayName: data.displayName,
+      photoURL: data.photoUrl,
+    })
+      .then(() => {
+        console.log("Done");
+      })
+      .catch((error) => {
+        // An error occurred
+        console.log("***********catch error***********", error);
+        // ...
+      });
   };
 
   const signIn = (email, password) => {
