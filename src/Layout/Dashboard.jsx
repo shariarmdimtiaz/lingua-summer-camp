@@ -10,14 +10,11 @@ import {
 } from "react-icons/fa";
 import { GiBookCover } from "react-icons/gi";
 import useUserRole from "../Hooks/useUserRole";
-import { Children, useContext } from "react";
+import { useContext } from "react";
 import { ThemeContext } from "../Providers/ThemeProvider";
-import { AuthContext } from "../Providers/AuthProviders";
 import { Helmet } from "react-helmet";
 
 const Dashboard = () => {
-  const { user } = useContext(AuthContext);
-  console.log(user);
   const { containerStyles } = useContext(ThemeContext);
   const [UserRole] = useUserRole();
 

@@ -15,7 +15,6 @@ const Feedback = () => {
 
   const onSubmit = (data) => {
     const feedback = data.feedback;
-    console.log(classInfo);
     const updateInfo = {
       feedback,
     };

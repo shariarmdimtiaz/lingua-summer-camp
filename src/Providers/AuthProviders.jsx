@@ -54,20 +54,10 @@ const AuthProviders = ({ children }) => {
   };
 
   const profileUpdate = (data) => {
-    console.log("**********data************", data);
-    console.log("**********name************", data.displayName);
     updateProfile(auth.currentUser, {
       displayName: data.displayName,
       photoURL: data.photoUrl,
-    })
-      .then(() => {
-        console.log("Done");
-      })
-      .catch((error) => {
-        // An error occurred
-        console.log("***********catch error***********", error);
-        // ...
-      });
+    });
   };
 
   const signIn = (email, password) => {

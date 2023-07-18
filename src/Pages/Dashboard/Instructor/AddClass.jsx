@@ -33,7 +33,6 @@ const AddClass = () => {
     let classImage = "";
     const status = "pending";
     const feedback = "";
-    console.log(data);
     const formData = new FormData();
     formData.append("image", selectedFile);
 
@@ -66,7 +65,6 @@ const AddClass = () => {
           })
             .then((res) => res.json())
             .then((data) => {
-              //console.log(data);
               if (data.insertedId) {
                 reset();
                 Swal.fire({
@@ -88,23 +86,6 @@ const AddClass = () => {
       <form onSubmit={handleSubmit(onSubmit)} className="card-body">
         <div className="form-control">
           <label className="label">
-            <span className="">Instructor Name</span>
-          </label>
-          <input
-            type="text"
-            {...register("instructorName", { required: true })}
-            name="instructorName"
-            placeholder="Instructor name"
-            defaultValue={user?.displayName}
-            readOnly
-            className="input input-bordered text-black"
-          />
-          {errors.instructorName && (
-            <span className="text-red-600">Instructor name is required</span>
-          )}
-        </div>
-        <div className="form-control">
-          <label className="label">
             <span className="">Instructor Email</span>
           </label>
           <input
@@ -118,6 +99,22 @@ const AddClass = () => {
           />
           {errors.email && (
             <span className="text-red-600">Email is required</span>
+          )}
+        </div>
+        <div className="form-control">
+          <label className="label">
+            <span className="">Instructor Name</span>
+          </label>
+          <input
+            type="text"
+            {...register("instructorName", { required: true })}
+            name="instructorName"
+            placeholder="Instructor name"
+            defaultValue={user?.displayName}
+            className="input input-bordered text-black"
+          />
+          {errors.instructorName && (
+            <span className="text-red-600">Instructor name is required</span>
           )}
         </div>
         <div className="form-control">

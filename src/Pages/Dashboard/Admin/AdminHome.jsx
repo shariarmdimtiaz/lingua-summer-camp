@@ -3,7 +3,6 @@ import homeImage from "../../../assets/analytics.gif";
 import { AuthContext } from "../../../Providers/AuthProviders";
 const AdminHome = () => {
   const { user } = useContext(AuthContext);
-  console.log(user);
   return (
     <div className="mx-auto py-10">
       <h1 className="text-center text-3xl">

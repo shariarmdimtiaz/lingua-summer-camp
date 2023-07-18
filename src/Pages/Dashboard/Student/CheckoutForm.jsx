@@ -85,6 +85,7 @@ const CheckoutForm = ({ id, classId, className, price }) => {
       };
 
       axiosSecure.post("/payments", payment).then((res) => {
+        //console.log(res);
         fetch(`${api.apiUrl}/classes/enrollment/${id}`, {
           method: "PATCH",
           headers: {
@@ -95,9 +96,9 @@ const CheckoutForm = ({ id, classId, className, price }) => {
           .then((res) => res.json())
           .then((data) => {
             if (data.modifiedCount > 0) {
-              console.log("modifiedCount:", data.modifiedCount);
-              //refetch();
-              //Swal.fire("Saved!", "", "success");
+              // console.log("modifiedCount:", data.modifiedCount);
+              // refetch();
+              // Swal.fire("Saved!", "", "success");
             }
           });
 
@@ -110,9 +111,9 @@ const CheckoutForm = ({ id, classId, className, price }) => {
         })
           .then((res) => res.json())
           .then((data) => {
-            console.log("available students >>>", data);
+            // console.log("available students >>>", data);
             if (data.modifiedCount > 0) {
-              Swal.fire("Updated available seats!", "", "success");
+              // Swal.fire("Updated available seats!", "", "success");
             }
           });
         // display confirm

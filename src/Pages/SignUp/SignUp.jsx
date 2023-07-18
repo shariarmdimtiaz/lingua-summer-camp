@@ -5,6 +5,8 @@ import img from "../../assets/login.png";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import { ThemeContext } from "../../Providers/ThemeProvider";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const SignUp = () => {
   const { containerStyles } = useContext(ThemeContext);
@@ -26,7 +28,6 @@ const SignUp = () => {
 
   const onSubmit = async (data) => {
     try {
-      // console.log(data);
       // create an account
       createUser(data.email, data.password)
         .then((result) => {
@@ -45,31 +46,27 @@ const SignUp = () => {
             .then((data) => {
               localStorage.setItem("language-access-token", data.token);
             });
-        })
-        .catch((error) => {
-          //toast.error("Sorry, try again.");
-          //console.log(error);
-          // console.log(">>>> ", error.message);
-        });
-
-      if (data.name || data.photoURL) {
-        profileUpdate({
-          displayName: data.name,
-          photoURL: data.photoURL,
-        }).then((result) => {
-          //const userInfo = result.user;
-          // console.log("userInfo >>", result);
-          reset();
           Swal.fire({
             position: "top-end",
             icon: "success",
-            title: "User created successfully.",
+            title: "User account created successfully.",
             showConfirmButton: false,
             timer: 1500,
           });
-          navigate("/");
+        })
+        .catch((error) => {
+          toast.error("Sorry, try again.", error);
+          //console.log(error);
+        });
+
+      if (data?.name || data?.photoURL) {
+        profileUpdate({
+          displayName: data?.name,
+          photoURL: data?.photoURL,
         });
       }
+      reset();
+      navigate(from, { replace: true });
     } catch (error) {
       console.log(error);
     }
@@ -202,6 +199,7 @@ const SignUp = () => {
           </div>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };

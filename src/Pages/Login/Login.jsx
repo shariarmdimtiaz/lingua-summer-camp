@@ -35,10 +35,6 @@ const Login = () => {
   const from = location.state?.from?.pathname || "/";
 
   const onSubmit = (data) => {
-    //event.preventDefault();
-    //const form = document.getElementById("login-form");
-    //const form = event.target;
-
     signIn(data.email, data.password)
       .then((result) => {
         const user = result.user;
@@ -46,7 +42,6 @@ const Login = () => {
         const loggedUser = {
           email: user.email,
         };
-        //console.log(user);
         fetch(jwtUrl, {
           method: "POST",
           headers: {
@@ -74,7 +69,6 @@ const Login = () => {
   };
 
   const handleGoogleSignIn = () => {
-    //setError("");
     signInWithGoogle()
       .then((result) => {
         const user = result.user;
@@ -83,7 +77,6 @@ const Login = () => {
         const loggedUser = {
           email: user.email,
         };
-        //console.log(loggedUser);
         fetch(jwtUrl, {
           method: "POST",
           headers: {

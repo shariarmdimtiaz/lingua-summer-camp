@@ -1,5 +1,3 @@
-import { useContext, useEffect, useState } from "react";
-import { AuthContext } from "../../../Providers/AuthProviders";
 import useSelectedClasses from "../../../Hooks/useInstructorClasses";
 import Swal from "sweetalert2";
 import { FaTrashAlt } from "react-icons/fa";
@@ -10,7 +8,6 @@ const api = {
 
 const MyClasses = () => {
   const [InstructorClasses, refetch, dataLoading] = useSelectedClasses();
-  const { user } = useContext(AuthContext);
 
   const handleDelete = (id) => {
     const proceed = confirm("Are You sure you want to delete?");

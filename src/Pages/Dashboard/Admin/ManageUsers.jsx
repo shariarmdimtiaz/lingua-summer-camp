@@ -17,7 +17,6 @@ const api = {
 
 const ManageUsers = () => {
   const [UserInfo, refetch, userLoading] = useAllUser();
-  console.log(UserInfo);
 
   const handleMakeAdmin = (user) => {
     fetch(`${api.apiUrl}/users/admin/${user._id}`, {
@@ -25,7 +24,6 @@ const ManageUsers = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         if (data.modifiedCount) {
           refetch();
           Swal.fire({
