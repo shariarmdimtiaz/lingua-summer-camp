@@ -1,9 +1,10 @@
 # [Lingua Summer Camp](https://language-school-a1223.web.app/)
 
 Description: Lingua is a comprehensive language learning platform with various user-specific dashboards: Home, Instructors, Classes, Admin Dashboard, Instructor Dashboard, and Student Dashboard, all integrated with a robust Registration & Login System using Firebase.
--> The Admin Dashboard, reserved for the administrators, offers a private space where all the classes added by instructors are displayed. Administrators have the authority to review, approve, deny, and provide feedback for these classes.
--> Instructors have exclusive access to the platform, enabling them to add new classes through the Add Class page. The system ensures privacy and restricts access to only instructors. Moreover, instructors can view a list of all the classes they have added through the Instructor Dashboard.
--> For students, the platform provides a private Student Dashboard. Students can explore and book various language classes offered on the platform. After selecting a class, students can proceed with the enrollment process by completing the payment required. Additionally, a student can view the list of all payment history.
+
+- The Admin Dashboard, reserved for the administrators, offers a private space where all the classes added by instructors are displayed. Administrators have the authority to review, approve, deny, and provide feedback for these classes.
+- Instructors have exclusive access to the platform, enabling them to add new classes through the Add Class page. The system ensures privacy and restricts access to only instructors. Moreover, instructors can view a list of all the classes they have added through the Instructor Dashboard.
+- For students, the platform provides a private Student Dashboard. Students can explore and book various language classes offered on the platform. After selecting a class, students can proceed with the enrollment process by completing the payment required. Additionally, a student can view the list of all payment history.
 
 ## Resource
 
